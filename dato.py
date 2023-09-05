@@ -9,4 +9,4 @@ class Item(Nodo):
         
     
     def imprimir(self):
-        print(f'     t : {self.t}, A: {self.A}, Text: {self.text}')
+        print(f'        tiempo : {self.t}, Amplitud: {self.A}, Texto: {self.text}')
