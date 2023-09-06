@@ -1,31 +1,30 @@
 from Nodo import Nodo
-from ListaSimple import ListaSimple
-
+from ListaSenal import ListaSenal
 class Senal(Nodo):
     def __init__(self, nombre, tiempo, amplitud):
         super().__init__()
         self.nombre = nombre
         self.tiempo = tiempo
         self.amplitud = amplitud
-        self.items = ListaSimple()
+        self.items = ListaSenal()
         
     def imprimir(self):
-        print(f'Elemento --- Nombre: {self.nombre}, t: {self.tiempo} , A: {self.amplitud}')
+        print(f'SENAL --- Nombre: {self.nombre}, t: {self.tiempo} , A: {self.amplitud}')
         print("-"*60)
         self.items.mostrar()    
 
     def to_dot(self):        
         nodo_nombre = f'senal_{self.nombre}'
-        cadena = f'"{nodo_nombre}" [label="{self.nombre}", shape=ellipse, color=blue];\n'
+        cadena = f'"{nodo_nombre}" [label="{self.nombre}", shape=ellipse, color=red];\n'
         nodo_tiempo = f"{nodo_nombre}_tiempo"
         nodo_amplitud = f"{nodo_nombre}_amplitud"
-        cadena += f'"{nodo_tiempo}" [label="tiempo: {self.tiempo}", shape=ellipse, color=lightblue];\n'
-        cadena += f'"{nodo_amplitud}" [label="amplitud: {self.amplitud}", shape=ellipse, color=lightblue];\n'
+        cadena += f'"{nodo_tiempo}" [label="Tiempo: {self.tiempo}", shape=ellipse, color=lightblue];\n'
+        cadena += f'"{nodo_amplitud}" [label="Amplitud: {self.amplitud}", shape=ellipse, color=lightblue];\n'
         cadena += f'"{nodo_nombre}" -> "{nodo_tiempo}";\n'
         cadena += f'"{nodo_nombre}" -> "{nodo_amplitud}";\n'
 
         nodo_items = f"{nodo_nombre}_items"
-        cadena += f'"{nodo_items}" [label="Items", shape=ellipse, color=green];\n'
+        cadena += f'"{nodo_items}" [label="Datos", shape=ellipse, color=green];\n'
         cadena += f'"{nodo_nombre}" -> "{nodo_items}";\n'
 
         for c in range(1, self.amplitud + 1):
