@@ -8,6 +8,14 @@ import os
 
 senales = ListaSenal()
 
+def clear():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+clear()
+
 def carga_datos(ruta):
 
     if not os.path.isfile(ruta):
@@ -19,6 +27,7 @@ def carga_datos(ruta):
         return
     tree = ET.parse(ruta)
     root = tree.getroot()
+    
     for senal in root.findall('senal'):
         nombre = senal.get('nombre')
         tiempo = int(senal.get('t'))
@@ -45,39 +54,7 @@ def carga_datos(ruta):
             dato_nuevo = Item(t,A,text)
             senal_nueva.items.insertar(dato_nuevo)
         
-        senales.insertarOrdenadoNombre(senal_nueva)
-        
-    print("** Datos cargados correctamente **")
-
-def carga_datos101(ruta):
-
-    if not os.path.isfile(ruta):
-        print("El archivo no existe")
-        return
-
-    if not ruta.endswith(".xml"):
-        print("El archivo debe ser .xml")
-        return
-    tree = ET.parse(ruta)
-    root = tree.getroot()
-    for senal in root.findall('senal'):
-        nombre = senal.get('nombre')
-        tiempo = int(senal.get('t'))
-        amplitud = int(senal.get('A'))
-        senal_nueva = Senal(nombre,tiempo,amplitud)
-
-    for dato in senal.findall('dato'):
-        t = int(dato.get('t'))
-        A = int(dato.get('A'))
-        text = dato.text
-        
-        if int(text) > 0:
-            text = "1"
-        else:
-            text = "0"
-        dato_nuevo = Item(t, A, text)
-        senal_nueva.items.insertar(dato_nuevo)
-        senales.insertarOrdenadoNombre(senal_nueva)
+        senales.insertar(senal_nueva)
         
     print("** Datos cargados correctamente **")
 
@@ -105,7 +82,7 @@ def menu():
 
         opcion = input("Ingrese una opción: ")
         if   opcion == "1":
-            os.system('clear')
+            clear()
             print("_"*60 )
             print("Cargar Archivo")
             print("-"*60 )
@@ -115,22 +92,20 @@ def menu():
             #senales.mostrar()
         
         elif opcion == "2":
-            os.system('clear')
+            clear()
             print("_"*60 )
             print("Procesar archivo")
-            carga_datos101(ruta)
-            print(ruta)
-            senales.mostrar()
             print("-"*60 )
 
         elif opcion == "3":
-            os.system('clear')
+            clear()
             print("_"*60 )
             print("Escribir archivo salida")
+            senales.escribirXML()
             print("-"*60 )
 
         elif opcion == "4":
-            os.system('clear')
+            clear()
             print("_"*60 + "\n")
             print("Mostrar datos del estudiante")
             print("-> Alvaro Gabriel Ramirez Alvarez")
@@ -141,7 +116,7 @@ def menu():
             print("-"*60)
 
         elif opcion == "5":
-            os.system('clear')
+            clear()
             print("_"*60 )
             print("Generar gráfica")
             print("-"*60 )
@@ -154,7 +129,7 @@ def menu():
                 print(f"La Señal {nombre} no existe")
 
         elif opcion == "6":
-            os.system('clear')
+            clear()
             print(" ¡ INICIALIZADO CORRECTAMENTE !")
             senales.inicializar()
 
@@ -163,7 +138,7 @@ def menu():
         else:
             print("*** Opción inválida ***")
         input("Presione ENTER para continuar...")
-        os.system('clear')
+        clear()
 
 if __name__ == '__main__':
     menu()

@@ -1,5 +1,7 @@
 from Nodo import Nodo
 from ListaSenal import ListaSenal
+
+
 class Senal(Nodo):
     def __init__(self, nombre, tiempo, amplitud):
         super().__init__()
@@ -7,13 +9,14 @@ class Senal(Nodo):
         self.tiempo = tiempo
         self.amplitud = amplitud
         self.items = ListaSenal()
-        
-    def imprimir(self):
-        print(f'SENAL --- Nombre: {self.nombre}, t: {self.tiempo} , A: {self.amplitud}')
-        print("-"*60)
-        self.items.mostrar()    
 
-    def to_dot(self):        
+    def imprimir(self):
+        print(
+            f'SENAL --- Nombre: {self.nombre}, t: {self.tiempo} , A: {self.amplitud}')
+        print("-"*60)
+        self.items.mostrar()
+
+    def to_dot(self):
         nodo_nombre = f'senal_{self.nombre}'
         cadena = f'"{nodo_nombre}" [label="{self.nombre}", shape=ellipse, color=red];\n'
         nodo_tiempo = f"{nodo_nombre}_tiempo"
@@ -33,24 +36,32 @@ class Senal(Nodo):
                 item = self.get_item(r, c)
                 item_nodo_nombre = f"{nodo_nombre}_item_{r}_{c}"
                 cadena += f'"{item_nodo_nombre}" [label="{item.text if item else "-"}", shape=ellipse];\n'
-            
+
                 if r == 1:
                     cadena += f'"{nodo_items}" -> "{item_nodo_nombre}";\n'
 
                 else:
                     cadena += f'"{prev_item}" -> "{item_nodo_nombre}";\n'
-                    
+
                 prev_item = item_nodo_nombre
         return cadena
-        
-        
+
+    def to_xml(self):
+        cadena = f'<senal nombre="{self.nombre}" amplitud="{self.amplitud}">\n'
+        actual = self.items.inicio
+        while actual:
+            cadena += f'\t<item row="{actual.t}" col="{actual.A}">{actual.text}</item>\n'
+            actual = actual.siguiente
+        cadena += "</senal>\n"
+        return cadena
+
     def get_item(self, t, A):
         actual = self.items.inicio
-        while actual: 
+        while actual:
             if actual.t == t and actual.A == A:
                 return actual
             actual = actual.siguiente
         return None
-        
+
         
     
